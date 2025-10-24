@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:stretchColumns="1"
@@ -11,24 +12,34 @@
         android:textSize="22sp"
         android:textStyle="bold"
         android:layout_marginBottom="16dp"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        tools:ignore="HardcodedText" />
 
     <TableRow>
-        <TextView android:text="1."/>
-        <TextView android:text="Casa → Trabajo"/>
-        <TextView android:text="Lunes-Viernes"/>
+        <TextView android:text="1."
+            tools:ignore="HardcodedText" />
+        <TextView android:text="Casa → Trabajo"
+            tools:ignore="HardcodedText" />
+        <TextView android:text="Lunes-Viernes"
+            tools:ignore="HardcodedText" />
     </TableRow>
 
     <TableRow>
-        <TextView android:text="2."/>
-        <TextView android:text="Universidad → Hogar"/>
-        <TextView android:text="Sábados"/>
+        <TextView android:text="2."
+            tools:ignore="HardcodedText" />
+        <TextView android:text="Universidad → Hogar"
+            tools:ignore="HardcodedText" />
+        <TextView android:text="Sábados"
+            tools:ignore="HardcodedText" />
     </TableRow>
 
     <TableRow>
-        <TextView android:text="3."/>
-        <TextView android:text="Casa → Gimnasio"/>
-        <TextView android:text="Diario"/>
+        <TextView android:text="3."
+            tools:ignore="HardcodedText" />
+        <TextView android:text="Casa → Gimnasio"
+            tools:ignore="HardcodedText" />
+        <TextView android:text="Diario"
+            tools:ignore="HardcodedText" />
     </TableRow>
 
     <Button
@@ -36,5 +47,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Volver"
-        android:layout_marginTop="24dp"/>
+        android:layout_marginTop="24dp"
+        tools:ignore="HardcodedText" />
 </TableLayout>

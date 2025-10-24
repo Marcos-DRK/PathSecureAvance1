@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -11,37 +12,43 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="notificaciones_activadas"
-        android:checked="true"/>
+        android:checked="true"
+        tools:ignore="HardcodedText" />
 
     <CheckBox
         android:id="@+id/chkAutoDetect"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="activar_detecci_n_autom_tica"/>
+        android:text="activar detección_automática"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="contactos_de_emergencia"
+        android:text="contactos de emergencia"
         android:textStyle="bold"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp"
+        tools:ignore="HardcodedText" />
 
     <EditText
         android:id="@+id/etContact1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="nombre_y_tel_fono_del_contacto_1"/>
+        android:hint="nombre y teléfono del contacto 1"
+        tools:ignore="HardcodedText" />
 
     <EditText
         android:id="@+id/etContact2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="nombre_y_tel_fono_del_contacto_2"/>
+        android:hint="nombre y teléfono del contacto 2"
+        tools:ignore="HardcodedText" />
 
     <Button
         android:id="@+id/btnBackSettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="volver"
-        android:layout_marginTop="24dp"/>
+        android:layout_marginTop="24dp"
+        tools:ignore="HardcodedText" />
 </LinearLayout>
