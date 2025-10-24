@@ -35,14 +35,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="nombre y teléfono del contacto 1"
-        tools:ignore="HardcodedText" />
+        tools:ignore="Autofill,HardcodedText,TextFields" />
 
     <EditText
         android:id="@+id/etContact2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="nombre y teléfono del contacto 2"
-        tools:ignore="HardcodedText" />
+        tools:ignore="Autofill,HardcodedText,TextFields" />
 
     <Button
         android:id="@+id/btnBackSettings"
