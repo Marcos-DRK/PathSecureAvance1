@@ -9,8 +9,8 @@ import com.tuempresa.pathsecure.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText etEmail, etPassword;
-    private Button btnLogin, btnRegister;
+     EditText etEmail, etPassword;
+     Button btnLogin, btnRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
