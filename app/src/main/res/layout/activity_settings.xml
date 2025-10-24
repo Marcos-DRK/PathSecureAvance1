@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#FFFFFF">
+
+    <CheckBox
+        android:id="@+id/chkNotifications"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="notificaciones_activadas"
+        android:checked="true"/>
+
+    <CheckBox
+        android:id="@+id/chkAutoDetect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="activar_detecci_n_autom_tica"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="contactos_de_emergencia"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"/>
+
+    <EditText
+        android:id="@+id/etContact1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="nombre_y_tel_fono_del_contacto_1"/>
+
+    <EditText
+        android:id="@+id/etContact2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="nombre_y_tel_fono_del_contacto_2"/>
+
+    <Button
+        android:id="@+id/btnBackSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="volver"
+        android:layout_marginTop="24dp"/>
+</LinearLayout>
