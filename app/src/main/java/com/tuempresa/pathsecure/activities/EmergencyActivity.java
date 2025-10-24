@@ -35,7 +35,7 @@ public class EmergencyActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        txtStatus.setText("⚠️ Emergencia activada. Enviando alerta...");
+        txtStatus.setText("⚠️ Emergencia activada. Enviando alerta...⚠️");
 
         registrarEmergencia();
 
