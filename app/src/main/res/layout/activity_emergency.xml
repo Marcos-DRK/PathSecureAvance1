@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="#B00020"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/txtStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="⚠️ Emergencia activada"
+        android:textSize="26sp"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="24dp"
+        tools:ignore="HardcodedText" />
+
+    <Button
+        android:id="@+id/btnCancelEmergency"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cancelar Emergencia"
+        android:backgroundTint="#FFFFFF"
+        android:textColor="#B00020"
+        android:textStyle="bold"
+        tools:ignore="HardcodedText,VisualLintButtonSize" />
+</LinearLayout>

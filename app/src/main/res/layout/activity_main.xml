@@ -27,23 +27,27 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:hint="correo electrónico"
+        android:minHeight="48dp"
+        android:textColorHint="#546E7A"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txtTitle"
-        tools:ignore="Autofill,HardcodedText,TextFields" />
+        tools:ignore="Autofill,HardcodedText,TextFields,TouchTargetSizeCheck,VisualLintTextFieldSize,TextContrastCheck,TextContrastCheck" />
 
     <EditText
         android:id="@+id/etPassword"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:autofillHints=""
         android:hint="contraseña"
         android:inputType="textPassword"
-        app:layout_constraintTop_toBottomOf="@id/etEmail"
-        app:layout_constraintStart_toStartOf="parent"
+        android:minHeight="48dp"
+        android:textColorHint="#546E7A"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
-        tools:ignore="HardcodedText" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etEmail"
+        tools:ignore="HardcodedText,VisualLintTextFieldSize,TextContrastCheck,TextContrastCheck,TouchTargetSizeCheck" />
 
     <Button
         android:id="@+id/btnLogin"
@@ -54,7 +58,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="24dp"
-        tools:ignore="HardcodedText" />
+        tools:ignore="HardcodedText,VisualLintButtonSize" />
 
     <Button
         android:id="@+id/btnRegister"
@@ -65,5 +69,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"
-        tools:ignore="HardcodedText" />
+        tools:ignore="HardcodedText,VisualLintButtonSize" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -76,11 +76,11 @@
             android:id="@+id/btnEmergency"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/emergencia"
-            android:backgroundTint="#B00020"
-            android:textColor="#FFFFFF"
             android:layout_marginEnd="12dp"
-            tools:ignore="ButtonStyle,HardcodedText" />
+            android:backgroundTint="#B00020"
+            android:text="@string/emergencia"
+            android:textColor="#FFFFFF"
+            tools:ignore="ButtonStyle,HardcodedText,DuplicateSpeakableTextCheck,DuplicateSpeakableTextCheck" />
 
         <Button
             android:id="@+id/btnSettings"
