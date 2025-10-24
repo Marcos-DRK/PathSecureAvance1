@@ -49,30 +49,25 @@ public class HomeActivity extends AppCompatActivity {
 
 
     @SuppressLint("SetTextI18n")
-    private void obtenerUbicacion() {
-        try {
-            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+    private void obtenerUbicacion() throws SecurityException {
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                    2000, 5, new LocationListener() {
-                        @SuppressLint("SetTextI18n")
-                        @Override
-                        public void onLocationChanged(@NonNull Location location) {
-                            double lat = location.getLatitude();
-                            double lon = location.getLongitude();
-                            txtLocation.setText("Lat: " + lat + "\nLon: " + lon);
-                        }
-                    });
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                2000, 5, new LocationListener() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onLocationChanged(@NonNull Location location) {
+                        double lat = location.getLatitude();
+                        double lon = location.getLongitude();
+                        txtLocation.setText("Lat: " + lat + "\nLon: " + lon);
+                    }
+                });
 
-            Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            if (location != null) {
-                double lat = location.getLatitude();
-                double lon = location.getLongitude();
-                txtLocation.setText("Lat: " + lat + "\nLon: " + lon);
-            }
-        } catch (SecurityException e) {
-            Log.e("GPS_ERROR", "Error obteniendo ubicación", e);
-
+        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if (location != null) {
+            double lat = location.getLatitude();
+            double lon = location.getLongitude();
+            txtLocation.setText("Lat: " + lat + "\nLon: " + lon);
         }
     }
 
