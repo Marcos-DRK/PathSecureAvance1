@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="24dp"
@@ -17,7 +18,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="80dp"/>
+        android:layout_marginTop="80dp"
+        tools:ignore="HardcodedText" />
 
     <EditText
         android:id="@+id/etEmail"
@@ -27,7 +29,8 @@
         android:hint="correo electrónico"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtTitle" />
+        app:layout_constraintTop_toBottomOf="@id/txtTitle"
+        tools:ignore="Autofill,HardcodedText,TextFields" />
 
     <EditText
         android:id="@+id/etPassword"
@@ -39,7 +42,8 @@
         app:layout_constraintTop_toBottomOf="@id/etEmail"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp"
+        tools:ignore="HardcodedText" />
 
     <Button
         android:id="@+id/btnLogin"
@@ -49,7 +53,8 @@
         app:layout_constraintTop_toBottomOf="@id/etPassword"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="24dp"/>
+        android:layout_marginTop="24dp"
+        tools:ignore="HardcodedText" />
 
     <Button
         android:id="@+id/btnRegister"
@@ -59,5 +64,6 @@
         app:layout_constraintTop_toBottomOf="@id/btnLogin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp"
+        tools:ignore="HardcodedText" />
 </androidx.constraintlayout.widget.ConstraintLayout>
