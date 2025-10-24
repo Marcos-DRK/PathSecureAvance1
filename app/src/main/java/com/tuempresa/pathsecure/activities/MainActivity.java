@@ -12,7 +12,6 @@ import com.google.firebase.auth.FirebaseAuth;
 public class MainActivity extends AppCompatActivity {
 
     private EditText etEmail, etPassword;
-    private Button btnLogin, btnRegister;
     private FirebaseAuth mAuth;
 
     @Override
@@ -22,8 +21,8 @@ public class MainActivity extends AppCompatActivity {
 
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
-        btnLogin = findViewById(R.id.btnLogin);
-        btnRegister = findViewById(R.id.btnRegister);
+        Button btnLogin = findViewById(R.id.btnLogin);
+        Button btnRegister = findViewById(R.id.btnRegister);
 
         mAuth = FirebaseAuth.getInstance();
 
