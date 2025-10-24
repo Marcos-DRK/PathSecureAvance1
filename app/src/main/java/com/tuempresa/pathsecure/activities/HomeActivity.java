@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -44,6 +45,10 @@ public class HomeActivity extends AppCompatActivity {
         } else {
             obtenerUbicacion();
         }
+        btnEmergency.setOnClickListener(v -> {
+            Intent i = new Intent(HomeActivity.this, EmergencyActivity.class);
+            startActivity(i);
+        });
     }
 
 
@@ -70,6 +75,7 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -79,4 +85,6 @@ public class HomeActivity extends AppCompatActivity {
             Toast.makeText(this, "Permiso de ubicación denegado", Toast.LENGTH_SHORT).show();
         }
     }
+
 }
+
