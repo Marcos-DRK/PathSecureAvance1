@@ -13,6 +13,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,7 +71,8 @@ public class HomeActivity extends AppCompatActivity {
                 txtLocation.setText("Lat: " + lat + "\nLon: " + lon);
             }
         } catch (SecurityException e) {
-            e.printStackTrace();
+            Log.e("GPS_ERROR", "Error obteniendo ubicación", e);
+
         }
     }
 
