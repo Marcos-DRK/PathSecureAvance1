@@ -43,6 +43,8 @@ public class EmergencyActivity extends AppCompatActivity {
     }
 
     private void registrarEmergencia() {
+        String tipo = getIntent().getStringExtra("tipo");
+        if (tipo == null) tipo ="manual";
         String userId = mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getUid() : "anónimo";
         String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
 
