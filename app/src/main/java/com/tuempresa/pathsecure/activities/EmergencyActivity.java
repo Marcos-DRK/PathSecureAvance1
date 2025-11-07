@@ -31,6 +31,7 @@ public class EmergencyActivity extends AppCompatActivity {
     private MediaRecorder recorder;
     private String filePath;
     private static final int REQUEST_AUDIO = 200;
+    private static final int REQUEST_SMS = 300;
 
 
     @SuppressLint("SetTextI18n")
@@ -44,6 +45,11 @@ public class EmergencyActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        if (ContextCompat.checkSelfPermission(this,Manifest.permission.SEND_SMS)
+                != PackageManager.PERMISSION_GRANTED){
+
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.SEND_SMS}, REQUEST_SMS);
+        }
 
         txtStatus.setText("⚠️ Emergencia activada. Enviando alerta...⚠️");
 
@@ -59,6 +65,22 @@ public class EmergencyActivity extends AppCompatActivity {
 
         btnCancelEmergency.setOnClickListener(v -> finish());
     }
+
+    private void enviarSMS(String mensaje){
+        try {
+            String numEmergencia = "123456789";
+
+                    android.telephony.SmsManager sms = android.telephony.SmsManager.getDefault();
+                    sms.sendTextMessage(numEmergencia, null,mensaje,null,null);
+
+                    Toast.makeText(this,"SMS de emergencia enviado", Toast.LENGTH_SHORT).show();
+        }catch (Exception e){
+            Toast.makeText(this,"Error enviando SMS", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+
     private void iniciarGrabacion() {
         try {
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
