@@ -37,6 +37,15 @@ public class RegisterActivity extends AppCompatActivity {
         btnCreateAccount.setOnClickListener(v -> registrarUsuario());
         btnBack.setOnClickListener(v -> finish());
     }
+    String txtLocationStr = HomeActivity.ultimateUbicacion;
+    String mensaje = "Alerta PathSecure\n" +
+            "Usuario:" + userId + "\n" +
+            "Tipo:" + Tipo + "\n" +
+            "fecha:" + timestamp + "\n"+
+            "Ubicación:" + txtLocationStr + "\n"+
+            "Revisa la aplicación para mas detalles";
+    enviarSMS(mensaje);
+
 
     private void registrarUsuario() {
         String email = etEmailReg.getText().toString();

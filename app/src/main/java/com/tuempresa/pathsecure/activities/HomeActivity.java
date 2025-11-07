@@ -40,6 +40,8 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
     private int contadorVolumen = 0;
     private long ultimoClick = 0;
 
+    public static String ultimaUbicacion = "Sin datos";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -156,5 +158,12 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         sensorManager.registerListener(this,
                 sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_NORMAL);
+    }
+    @Override
+    public void onLocationChaged(@NonNull Location location){
+        double lat = location.getLatitude();
+        double lon = location.getLongitude();
+
+        ultimaUbicacion = "lat:"+ lat + ",lon:"+ lon;txtLocation.setText(ultimaUbicacion);
     }
 }
