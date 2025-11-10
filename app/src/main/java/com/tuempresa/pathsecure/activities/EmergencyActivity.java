@@ -1,5 +1,6 @@
 package com.tuempresa.pathsecure.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -9,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.media.MediaRecorder;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,56 +32,74 @@ public class EmergencyActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private MediaRecorder recorder;
     private String filePath;
+
     private static final int REQUEST_AUDIO = 200;
     private static final int REQUEST_SMS = 300;
 
+    private TextView txtStatus;
 
-    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_emergency);
 
+        txtStatus = findViewById(R.id.txtStatus);
         Button btnCancelEmergency = findViewById(R.id.btnCancelEmergency);
-        TextView txtStatus = findViewById(R.id.txtStatus);
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        if (ContextCompat.checkSelfPermission(this,Manifest.permission.SEND_SMS)
-                != PackageManager.PERMISSION_GRANTED){
 
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.SEND_SMS}, REQUEST_SMS);
-        }
+        txtStatus.setText("Emergencia activada. Solicitando permisos...");
 
-        txtStatus.setText("⚠️ Emergencia activada. Enviando alerta...⚠️");
-
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.RECORD_AUDIO}, REQUEST_AUDIO);
-        } else {
-            iniciarGrabacion();
-        }
-
-        registrarEmergencia();
+        solicitarPermisos();
 
         btnCancelEmergency.setOnClickListener(v -> finish());
     }
 
-    private void enviarSMS(String mensaje){
-        try {
-            String numEmergencia = "123456789";
-
-                    android.telephony.SmsManager sms = android.telephony.SmsManager.getDefault();
-                    sms.sendTextMessage(numEmergencia, null,mensaje,null,null);
-
-                    Toast.makeText(this,"SMS de emergencia enviado", Toast.LENGTH_SHORT).show();
-        }catch (Exception e){
-            Toast.makeText(this,"Error enviando SMS", Toast.LENGTH_SHORT).show();
+    private void solicitarPermisos() {
+        // Primero Audio
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                    this, new String[]{Manifest.permission.RECORD_AUDIO}, REQUEST_AUDIO);
+            return;
         }
 
+        // Luego SMS
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                    this, new String[]{Manifest.permission.SEND_SMS}, REQUEST_SMS);
+            return;
+        }
+
+        // Si ya tiene ambos permisos, iniciar todo
+        iniciarEmergencia();
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == REQUEST_AUDIO || requestCode == REQUEST_SMS) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                solicitarPermisos();
+            } else {
+                Toast.makeText(this, "Permisos necesarios denegados", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }
+    }
+
+    private void iniciarEmergencia() {
+        txtStatus.setText("Grabando audio y registrando alerta...");
+
+        iniciarGrabacion();
+        registrarEmergencia();
+        enviarSMS("Emergencia detectada desde PathSecure");
+    }
 
     private void iniciarGrabacion() {
         try {
@@ -94,47 +114,46 @@ public class EmergencyActivity extends AppCompatActivity {
 
             recorder.prepare();
             recorder.start();
-
-            Toast.makeText(this, "Grabación iniciada", Toast.LENGTH_SHORT).show();
-        } catch (IOException e) {
-            Toast.makeText(this, "Error iniciando grabación: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void detenerGrabacion() {
-        try {
-            if (recorder != null) {
-                recorder.stop();
-                recorder.release();
-                recorder = null;
-                Toast.makeText(this, "Grabación finalizada y guardada", Toast.LENGTH_SHORT).show();
-            }
         } catch (Exception e) {
-            Toast.makeText(this, "Error al detener grabación", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Error al iniciar grabación: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-        finish();
     }
 
     private void registrarEmergencia() {
         String tipo = getIntent().getStringExtra("tipo");
         if (tipo == null) tipo ="manual";
-        String userId = mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getUid() : "anónimo";
+
+        String userId = mAuth.getCurrentUser() != null
+                ? mAuth.getCurrentUser().getUid()
+                : "anónimo";
+
         String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
 
         Map<String, Object> alerta = new HashMap<>();
         alerta.put("usuario", userId);
         alerta.put("fecha", timestamp);
-        alerta.put("tipo", "manual");
+        alerta.put("tipo", tipo);
         alerta.put("estado", "activada");
         alerta.put("grabacion", filePath);
 
-        db.collection("emergencias").add(alerta)
-                .addOnSuccessListener(ref -> Toast.makeText(this, "Emergencia registrada", Toast.LENGTH_SHORT).show())
-                .addOnFailureListener(e -> Toast.makeText(this, "Error al registrar emergencia", Toast.LENGTH_SHORT).show());
-
+        db.collection("emergencias").add(alerta);
     }
-    protected void onDestroy(){
+
+    private void enviarSMS(String mensaje) {
+        try {
+            String num = "123456789";
+            SmsManager.getDefault().sendTextMessage(num, null, mensaje, null, null);
+        } catch (Exception e) {
+            Toast.makeText(this, "Error enviando SMS", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
         super.onDestroy();
-        detenerGrabacion();
+        if (recorder != null) {
+            recorder.stop();
+            recorder.release();
+        }
     }
 }
