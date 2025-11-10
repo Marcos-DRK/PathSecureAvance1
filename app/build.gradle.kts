@@ -7,6 +7,7 @@ android {
     namespace = "com.tuempresa.pathsecure"
     compileSdk = 36
 
+
     defaultConfig {
         applicationId = "com.tuempresa.pathsecure"
         minSdk = 26
