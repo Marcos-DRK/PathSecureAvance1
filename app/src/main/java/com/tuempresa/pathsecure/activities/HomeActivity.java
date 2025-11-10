@@ -174,7 +174,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
             if (acceleration > SHAKE_THRESHOLD) {
                 long currentTime = System.currentTimeMillis();
 
-                if ((currentTime - lastShakeTime) > 3000) {
+                if ((currentTime - lastShakeTime) > 12000) {
                     lastShakeTime = currentTime;
                     activarEmergencia("sensor");
                 }
