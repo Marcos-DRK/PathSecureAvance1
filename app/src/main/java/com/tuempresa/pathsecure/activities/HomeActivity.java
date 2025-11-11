@@ -63,6 +63,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         btnRoutes = findViewById(R.id.btnRoutes);
         btnSettings = findViewById(R.id.btnSettings);
         btnEmergency = findViewById(R.id.btnEmergency);
+        btnBackMap = findViewById(R.id.btnBackMap);
         txtLocation = findViewById(R.id.txtLocation);
     }
 
@@ -146,6 +147,11 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
             Intent i = new Intent(HomeActivity.this, EmergencyActivity.class);
             i.putExtra("tipo", "manual");
             startActivity(i);
+        });
+
+        btnBackMap.setOnClickListener(v ->{ 
+            Intent intent = new Intent(HomeActivity.this, MapActivity.class);
+            startActivity(intent);
         });
 
         btnRoutes.setOnClickListener(v ->
