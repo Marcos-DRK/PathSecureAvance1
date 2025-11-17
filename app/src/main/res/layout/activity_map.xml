@@ -4,17 +4,11 @@
     android:layout_height="match_parent">
 
   <org.osmdroid.views.MapView
-       andorid:id="@+id/mapview"
-       android:layout_width="match_parent"
-       android:layout_height="match_parent">
+      android:id="@+id/mapView"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent" />
 
-    <Button
-        andorid:id="@+id/btnBackMap"
-        android:layout_width="match_content"
-        android:layout_height="match_content"
-        android:text="Volver"
-        android:layou_alignParentButtom="true"
-        android:layou_margin="16dp"
-        android:background="@drawble/btn_style"/>
-
-  </RelativeLayout>
+  <Button
+      android:id="@+id/btnBackMap"
+      android:layout_width="wrap_content"        android:layout_height="wrap_content"       android:text="Volver"
+      android:layout_alignParentBottom="true"    android:layout_margin="16dp"               android:background="@drawable/btn_style"/> </RelativeLayout>

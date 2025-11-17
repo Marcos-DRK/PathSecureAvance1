@@ -35,7 +35,7 @@ android {
 
 dependencies {
     implementation(platform(libs.firebase.bom))
-    implementation(org.osmdroid:osmdroid-android:6.1.16)
+    implementation("org.osmdroid:osmdroid-android:6.1.16")
     implementation(libs.firebase.analytics)
     implementation(libs.appcompat)
     implementation(libs.material)

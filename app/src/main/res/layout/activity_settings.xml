@@ -11,7 +11,7 @@
         android:id="@+id/chkNotifications"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="notificaciones_activadas"
+        android:text="Notificaciones activadas"
         android:checked="true"
         tools:ignore="HardcodedText,VisualLintButtonSize" />
 
@@ -19,42 +19,40 @@
         android:id="@+id/chkAutoDetect"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="activar detección_automática"
+        android:text="Activar detección automática (Shake/Volumen)"
+        android:layout_marginBottom="24dp"
         tools:ignore="HardcodedText,VisualLintButtonSize" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="contactos de emergencia"
+        android:text="Contactos de Emergencia"
+        android:textSize="18sp"
         android:textStyle="bold"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
         tools:ignore="HardcodedText" />
 
-    <EditText
-        android:id="@+id/etContact1"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvContacts"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="nombre y teléfono del contacto 1"
-        android:inputType=""
-        android:minHeight="48dp"
-        android:textColorHint="#757575"
-        tools:ignore="Autofill,HardcodedText,VisualLintTextFieldSize" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginBottom="16dp"
+        tools:listitem="@layout/item_contact_placeholder"/>
 
-    <EditText
-        android:id="@+id/etContact2"
+    <Button
+        android:id="@+id/btnAddContact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="nombre y teléfono del contacto 2"
-        android:inputType=""
-        android:minHeight="48dp"
-        android:textColorHint="#757575"
-        tools:ignore="Autofill,HardcodedText,VisualLintTextFieldSize" />
+        android:text="Añadir Nuevo Contacto"
+        android:backgroundTint="#B00020"
+        android:layout_marginBottom="8dp"
+        tools:ignore="HardcodedText" />
 
     <Button
         android:id="@+id/btnBackSettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="volver"
-        android:layout_marginTop="24dp"
+        android:text="Volver"
         tools:ignore="HardcodedText,VisualLintButtonSize" />
 </LinearLayout>

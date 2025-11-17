@@ -15,27 +15,19 @@
         android:textSize="22sp"
         android:textStyle="bold"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="16dp"
         tools:ignore="HardcodedText" />
-
-    <FrameLayout
-        android:id="@+id/mapContainer"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:background="#DADADA"
-        android:layout_marginBottom="16dp"/>
 
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:stretchColumns="1">
-
-        <TableRow>
-            <TextView android:text="Ruta actual"
-                tools:ignore="HardcodedText" />
-            <TextView android:text="Casa - trabajo" android:textStyle="bold"
-                tools:ignore="HardcodedText" />
-        </TableRow>
+        android:stretchColumns="1"
+        android:layout_marginBottom="16dp"> <TableRow>
+        <TextView android:text="Ruta actual"
+            tools:ignore="HardcodedText" />
+        <TextView android:text="Casa - trabajo" android:textStyle="bold"
+            tools:ignore="HardcodedText" />
+    </TableRow>
 
         <TableRow>
             <TextView android:text="Sistema"
@@ -80,7 +72,7 @@
             android:backgroundTint="#B00020"
             android:text="@string/emergencia"
             android:textColor="#FFFFFF"
-            tools:ignore="ButtonStyle,HardcodedText,DuplicateSpeakableTextCheck,DuplicateSpeakableTextCheck" />
+            tools:ignore="ButtonStyle,HardcodedText,DuplicateSpeakableTextCheck" />
 
         <Button
             android:id="@+id/btnSettings"
@@ -89,11 +81,12 @@
             android:text="Configuración"
             tools:ignore="ButtonStyle,HardcodedText" />
     </LinearLayout>
+
     <TextView
         android:id="@+id/txtLocation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ubicación actual: esperando señal GPS..."
+        android:text="Ubicación actual: (Datos de RoutesActivity)"
         android:textAlignment="center"
         android:textStyle="italic"
         android:layout_marginTop="16dp"

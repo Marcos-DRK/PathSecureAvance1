@@ -20,6 +20,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,10 +30,10 @@ import com.tuempresa.pathsecure.R;
 
 public class HomeActivity extends AppCompatActivity implements SensorEventListener {
 
-    private Button btnRoutes, btnSettings, btnEmergency;
+    private Button btnRoutes, btnSettings, btnEmergency; // btnBackMap ELIMINADO
     private TextView txtLocation;
 
-    private static final int REQ_LOCATION = 1001;
+    // NO SE NECESITA REQ_LOCATION AQUÍ, solo en MapActivity y RoutesActivity
     private static final double SHAKE_THRESHOLD = 2.5;
     public static String ultimaUbicacion = "Sin datos";
 
@@ -44,9 +45,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
     private int contadorVolumen = 0;
     private long ultimoClick = 0;
 
-    // GPS
-    private LocationManager locationManager;
-    private LocationListener locationListener;
+    // GPS/Ubicación (SE ELIMINA TODA LA LÓGICA DE LOCATION MANAGER, SE DEJA SOLO LA ETIQUETA)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,15 +54,17 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
 
         initViews();
         initSensor();
-        initLocation();
         initListeners();
+
+        // La ubicación NO se inicializa aquí, solo se muestra el estado en el TextView
+        txtLocation.setText("Ubicación: Se actualiza en MapActivity/Rutas.");
     }
 
     private void initViews() {
         btnRoutes = findViewById(R.id.btnRoutes);
         btnSettings = findViewById(R.id.btnSettings);
         btnEmergency = findViewById(R.id.btnEmergency);
-        btnBackMap = findViewById(R.id.btnBackMap);
+        // btnBackMap ELIMINADO
         txtLocation = findViewById(R.id.txtLocation);
     }
 
@@ -83,63 +84,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
-    private void initLocation() {
-
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-        // Listener que actualiza la ubicación en tiempo real
-        locationListener = new LocationListener() {
-            @Override
-            public void onLocationChanged(@NonNull Location location) {
-                double lat = location.getLatitude();
-                double lon = location.getLongitude();
-
-                ultimaUbicacion = "Lat: " + lat + ", Lon: " + lon;
-                txtLocation.setText(ultimaUbicacion);
-            }
-        };
-
-        // Primero revisamos GPS encendido
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            Toast.makeText(this, "Activa el GPS", Toast.LENGTH_LONG).show();
-            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-            return;
-        }
-
-        // Luego permisos
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(
-                    this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    REQ_LOCATION
-            );
-            return;
-        }
-
-        // Inicio seguro de ubicación
-        startLocation();
-    }
-
-    @SuppressLint("MissingPermission")
-    private void startLocation() {
-
-        locationManager.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER,
-                2000,
-                5,
-                locationListener
-        );
-
-        Location last = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if (last != null) {
-            double lat = last.getLatitude();
-            double lon = last.getLongitude();
-            ultimaUbicacion = "Lat: " + lat + ", Lon: " + lon;
-            txtLocation.setText(ultimaUbicacion);
-        }
-    }
+    // initLocation y startLocation ELIMINADOS
 
     private void initListeners() {
 
@@ -149,10 +94,8 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
             startActivity(i);
         });
 
-        btnBackMap.setOnClickListener(v ->{ 
-            Intent intent = new Intent(HomeActivity.this, MapActivity.class);
-            startActivity(intent);
-        });
+        // btnBackMap listener ELIMINADO
+        // Se asume que la navegación al mapa se hace a través de RoutesActivity (o un botón dedicado en el XML si lo añades)
 
         btnRoutes.setOnClickListener(v ->
                 startActivity(new Intent(HomeActivity.this, RoutesActivity.class)));
@@ -167,7 +110,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-
+        // Lógica de sensor
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
 
             float x = event.values[0];
@@ -192,7 +135,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
     public void onAccuracyChanged(Sensor sensor, int accuracy) {}
 
     // -----------------------------
-    // BOTONES DE VOLUMEN
+    // BOTONES DE VOLUMEN y EMERGENCIA
     // -----------------------------
 
     @Override
@@ -206,7 +149,6 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
     }
 
     private void detectarSecuenciaVolumen() {
-
         long tiempoActual = System.currentTimeMillis();
 
         if (tiempoActual - ultimoClick < 500) {
@@ -237,21 +179,15 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onPause() {
         super.onPause();
-
+        // Solo la lógica del sensor queda aquí
         if (sensorManager != null)
             sensorManager.unregisterListener(this);
 
-        if (locationManager != null && locationListener != null) {
-            try {
-                locationManager.removeUpdates(locationListener);
-            } catch (SecurityException ignored) {}
-        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         initSensor();
-        initLocation();
     }
 }
