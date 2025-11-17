@@ -38,6 +38,8 @@ public class SettingsActivity extends AppCompatActivity implements ContactAdapte
     private ContactAdapter contactAdapter;
     private List<Contact> contactsList = new ArrayList<>();
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

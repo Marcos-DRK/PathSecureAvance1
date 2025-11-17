@@ -48,6 +48,9 @@ public class RoutesActivity extends AppCompatActivity
     private RouteAdapter routeAdapter;
     private List<Route> routesList = new ArrayList<>();
 
+
+
+
     // Lógica de Grabación
     private LocationManager locationManager;
     private boolean isRecording = false;

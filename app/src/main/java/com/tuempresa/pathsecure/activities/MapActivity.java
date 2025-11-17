@@ -32,6 +32,7 @@ public class MapActivity extends AppCompatActivity {
     private MapView map;
     private Button btnVolver;
 
+
     // GPS y Localización
     private LocationManager locationManager;
     private LocationListener locationListener;

@@ -13,6 +13,8 @@ public class RoutePoint {
         this.lon = lon;
     }
 
+
+
     // Getters y Setters públicos
     public double getLat() { return lat; }
     public double getLon() { return lon; }

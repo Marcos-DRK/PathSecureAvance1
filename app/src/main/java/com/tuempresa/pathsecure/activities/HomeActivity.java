@@ -40,6 +40,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
             Manifest.permission.RECORD_AUDIO
     };
 
+
     private static final double SHAKE_THRESHOLD = 2.5;
     public static String ultimaUbicacion = "Sin datos";
 

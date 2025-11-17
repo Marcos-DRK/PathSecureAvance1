@@ -9,6 +9,7 @@ public class Route {
     private String name;
     private long timestamp;
 
+
     private List<RoutePoint> points; // Asegúrate de importar RoutePoint
 
     // CORRECCIÓN: Constructor vacío (OBLIGATORIO) que inicializa solo la lista
