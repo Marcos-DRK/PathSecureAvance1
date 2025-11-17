@@ -82,14 +82,5 @@
             tools:ignore="ButtonStyle,HardcodedText" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/txtLocation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Ubicación actual: (Datos de RoutesActivity)"
-        android:textAlignment="center"
-        android:textStyle="italic"
-        android:layout_marginTop="16dp"
-        tools:ignore="HardcodedText" />
 
 </LinearLayout>

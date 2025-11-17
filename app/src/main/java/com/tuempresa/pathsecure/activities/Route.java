@@ -1,38 +1,20 @@
-package com.tuempresa.pathsecure.activities; // ¡Paquete cambiado!
+package com.tuempresa.pathsecure.activities;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-// Clase anidada para almacenar las coordenadas
-class RoutePoint {
-    private double lat;
-    private double lon;
-
-    public RoutePoint() {}
-
-    public RoutePoint(double lat, double lon) {
-        this.lat = lat;
-        this.lon = lon;
-    }
-
-    public double getLat() { return lat; }
-    public double getLon() { return lon; }
-
-    public void setLat(double lat) { this.lat = lat; }
-    public void setLon(double lon) { this.lon = lon; }
-}
-
 public class Route {
     private String id;
     private String name;
     private long timestamp;
-    private List<RoutePoint> points;
 
+    private List<RoutePoint> points; // Asegúrate de importar RoutePoint
+
+    // CORRECCIÓN: Constructor vacío (OBLIGATORIO) que inicializa solo la lista
     public Route() {
-        this.id = UUID.randomUUID().toString();
         this.points = new ArrayList<>();
-        this.timestamp = System.currentTimeMillis();
+        // No generar el ID ni el timestamp aquí.
     }
 
     public Route(String name, List<RoutePoint> points) {
@@ -55,6 +37,9 @@ public class Route {
     public void setPoints(List<RoutePoint> points) { this.points = points; }
 
     public void addPoint(double lat, double lon) {
+        if (this.points == null) {
+            this.points = new ArrayList<>();
+        }
         this.points.add(new RoutePoint(lat, lon));
     }
 }

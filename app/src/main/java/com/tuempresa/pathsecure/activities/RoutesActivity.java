@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent; // ¡Nueva importación!
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -24,20 +25,20 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.tuempresa.pathsecure.R;
 
-// Importaciones de Rutas
+// Importaciones de Clases Locales
 import com.tuempresa.pathsecure.activities.Route;
 import com.tuempresa.pathsecure.activities.RouteAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.Date;
 
 public class RoutesActivity extends AppCompatActivity
         implements RouteAdapter.OnRouteActionListener, LocationListener {
 
     private static final int PERMISSION_REQUEST_CODE = 101;
-    private static final long MIN_TIME_MS = 5000; // Capturar punto cada 5 segundos
-    private static final float MIN_DISTANCE_M = 10; // Capturar punto si se mueve 10 metros
+    private static final long MIN_TIME_MS = 5000;
+    private static final float MIN_DISTANCE_M = 10;
 
     private Button btnBackRoutes, btnAddRoute;
     private RecyclerView rvRoutes;
@@ -57,12 +58,21 @@ public class RoutesActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_routes);
 
+        mAuth = FirebaseAuth.getInstance();
+
+        // CORRECCIÓN CRÍTICA: Forzar verificación de autenticación al inicio
+        if (mAuth.getCurrentUser() == null) {
+            Toast.makeText(this, "Debe iniciar sesión para ver las rutas.", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+            return;
+        }
+
         btnBackRoutes = findViewById(R.id.btnBackRoutes);
         btnAddRoute = findViewById(R.id.btnAddRoute);
         rvRoutes = findViewById(R.id.rvRoutes);
 
         db = FirebaseFirestore.getInstance();
-        mAuth = FirebaseAuth.getInstance();
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         // Configurar RecyclerView
@@ -93,7 +103,8 @@ public class RoutesActivity extends AppCompatActivity
             btnAddRoute.setBackgroundColor(ContextCompat.getColor(this, android.R.color.holo_red_dark));
         } else {
             btnAddRoute.setText("Añadir Nueva Ruta / Iniciar Grabación");
-            btnAddRoute.setBackgroundColor(ContextCompat.getColor(this, R.color.teal_700)); // Usar un color estándar o definir teal_700 en colors.xml
+            // Usamos un color fijo si no se define en colors.xml
+            btnAddRoute.setBackgroundColor(ContextCompat.getColor(this, R.color.teal_700));
         }
     }
 
@@ -109,8 +120,8 @@ public class RoutesActivity extends AppCompatActivity
 
         if (isRecording) return;
 
-        // Crear nueva ruta y empezar a escuchar la ubicación
-        currentRecordingRoute = new Route("Ruta grabada el " + new java.util.Date().toString(), new ArrayList<>());
+        // Crear nueva ruta
+        currentRecordingRoute = new Route("Ruta grabada el " + new Date().toString(), new ArrayList<>());
 
         try {
             locationManager.requestLocationUpdates(
@@ -141,12 +152,10 @@ public class RoutesActivity extends AppCompatActivity
         }
     }
 
-    // Manejo de la actualización de ubicación
     @Override
     public void onLocationChanged(@NonNull Location location) {
         if (isRecording && currentRecordingRoute != null) {
             currentRecordingRoute.addPoint(location.getLatitude(), location.getLongitude());
-            Toast.makeText(this, "Punto GPS registrado. Total: " + currentRecordingRoute.getPoints().size(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -163,7 +172,7 @@ public class RoutesActivity extends AppCompatActivity
         }
     }
 
-    // --- Diálogos ---
+    // --- Diálogos y CRUD de Firestore ---
 
     private void showStopRecordingDialog() {
         new AlertDialog.Builder(this)
@@ -201,10 +210,9 @@ public class RoutesActivity extends AppCompatActivity
         builder.show();
     }
 
-    // --- Lógica CRUD con Firestore ---
-
     private void saveRoute(Route route) {
-        String userId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
+        // ID seguro: verificado en onCreate
+        String userId = mAuth.getCurrentUser().getUid();
 
         db.collection("users").document(userId)
                 .collection("routes")
@@ -212,15 +220,16 @@ public class RoutesActivity extends AppCompatActivity
                 .set(route)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, "Ruta '" + route.getName() + "' guardada.", Toast.LENGTH_SHORT).show();
-                    loadRoutes(); // Recargar la lista
+                    loadRoutes();
                 })
-                .addOnFailureListener(e -> Toast.makeText(this, "Error al guardar la ruta.", Toast.LENGTH_SHORT).show());
+                .addOnFailureListener(e -> Toast.makeText(this, "Error al guardar la ruta: " + e.getMessage(), Toast.LENGTH_LONG).show());
 
         currentRecordingRoute = null;
     }
 
     private void loadRoutes() {
-        String userId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
+        // ID seguro: verificado en onCreate
+        String userId = mAuth.getCurrentUser().getUid();
 
         db.collection("users").document(userId).collection("routes")
                 .get()
@@ -228,23 +237,23 @@ public class RoutesActivity extends AppCompatActivity
                     if (task.isSuccessful()) {
                         routesList.clear();
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            // Firestore puede convertir el Map a objeto Route automáticamente si la clase es correcta
+                            // toObject() funciona si Route.java y RoutePoint.java están correctos
                             Route route = document.toObject(Route.class);
                             routesList.add(route);
                         }
                         routeAdapter.updateList(routesList);
                     } else {
-                        Toast.makeText(this, "Error cargando rutas.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Error cargando rutas: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
     }
 
-    // --- Implementación de Interface (Acciones del Adaptador) ---
+    // ... (Implementación de Interface y Métodos de Ciclo de Vida restantes) ...
 
     @Override
     public void onDeleteClick(Route route) {
-        // Implementación del borrado
-        String userId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
+        // ID seguro: verificado en onCreate
+        String userId = mAuth.getCurrentUser().getUid();
 
         db.collection("users").document(userId)
                 .collection("routes")
@@ -252,25 +261,20 @@ public class RoutesActivity extends AppCompatActivity
                 .delete()
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, route.getName() + " eliminada.", Toast.LENGTH_SHORT).show();
-                    loadRoutes(); // Recargar la lista
+                    loadRoutes();
                 })
-                .addOnFailureListener(e -> Toast.makeText(this, "Error al eliminar ruta.", Toast.LENGTH_SHORT).show());
+                .addOnFailureListener(e -> Toast.makeText(this, "Error al eliminar ruta: " + e.getMessage(), Toast.LENGTH_LONG).show());
     }
 
     @Override
     public void onItemClick(Route route) {
-        // Al hacer clic, se podría abrir un mapa para ver la ruta (implementación avanzada)
         Toast.makeText(this, "Visualizando ruta: " + route.getName() + " (" + route.getPoints().size() + " puntos)", Toast.LENGTH_LONG).show();
-        // **TODO:** Abrir una MapActivity temporal para dibujar la ruta.
     }
-
-    // --- Métodos de ciclo de vida de LocationListener (No se usan, pero son obligatorios) ---
 
     @Override
     protected void onPause() {
         super.onPause();
         if (isRecording) {
-            // Detener la escucha del GPS para ahorrar batería si la Activity no está visible
             locationManager.removeUpdates(this);
         }
     }
@@ -279,7 +283,6 @@ public class RoutesActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         if (isRecording) {
-            // Reanudar la escucha del GPS si regresa la Activity
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 locationManager.requestLocationUpdates(
                         LocationManager.GPS_PROVIDER,

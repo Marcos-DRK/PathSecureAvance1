@@ -5,23 +5,28 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout; // Necesario para el Layout del diálogo
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions; // ¡Nueva importación!
 import com.tuempresa.pathsecure.R;
 
-// IMPORTACIONES NUEVAS Y NECESARIAS
-import com.tuempresa.pathsecure.adapters.ContactAdapter;
-import com.tuempresa.pathsecure.models.Contact;
+// Importaciones de Clases Locales
+import com.tuempresa.pathsecure.activities.ContactAdapter;
+import com.tuempresa.pathsecure.activities.Contact;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.Collections; // ¡Nueva importación!
 
 public class SettingsActivity extends AppCompatActivity implements ContactAdapter.OnContactActionListener {
 
@@ -31,12 +36,24 @@ public class SettingsActivity extends AppCompatActivity implements ContactAdapte
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
     private ContactAdapter contactAdapter;
-    private List<Contact> contactsList = new ArrayList<>(); // Lista de objetos Contact
+    private List<Contact> contactsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        mAuth = FirebaseAuth.getInstance();
+
+        // CORRECCIÓN CRÍTICA: Forzar verificación de autenticación al inicio
+        if (mAuth.getCurrentUser() == null) {
+            Toast.makeText(this, "Debe iniciar sesión para ver los ajustes.", Toast.LENGTH_LONG).show();
+            // Asumiendo que MainActivity.class es la pantalla principal o login
+            // Cámbiala si tu login/registro está en otra Activity
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+            return;
+        }
 
         // Inicialización de Vistas
         btnBackSettings = findViewById(R.id.btnBackSettings);
@@ -44,11 +61,9 @@ public class SettingsActivity extends AppCompatActivity implements ContactAdapte
         rvContacts = findViewById(R.id.rvContacts);
 
         db = FirebaseFirestore.getInstance();
-        mAuth = FirebaseAuth.getInstance();
 
         // 1. Configurar RecyclerView y Adaptador
         rvContacts.setLayoutManager(new LinearLayoutManager(this));
-        // Pasamos la lista y 'this' (SettingsActivity) como listener para manejar acciones
         contactAdapter = new ContactAdapter(contactsList, this);
         rvContacts.setAdapter(contactAdapter);
 
@@ -61,55 +76,45 @@ public class SettingsActivity extends AppCompatActivity implements ContactAdapte
     // --- Lógica CRUD con Firestore ---
 
     private void loadContacts() {
-        String userId = mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getUid() : null;
-        if (userId == null) {
-            Toast.makeText(this, "Usuario no autenticado.", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        // Obtenemos el ID de forma segura ya que verificamos en onCreate
+        String userId = mAuth.getCurrentUser().getUid();
 
         db.collection("users").document(userId).get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
-                        // Firestore lee la lista y la convierte a objetos Contact si es posible
-                        List<Contact> fetchedContacts = (List<Contact>) documentSnapshot.get("emergency_contacts");
-                        if (fetchedContacts != null) {
-                            // Debemos iterar para asegurar que se deserializan correctamente
-                            List<Contact> tempContacts = new ArrayList<>();
-                            for (Object item : fetchedContacts) {
-                                if (item instanceof Contact) {
-                                    tempContacts.add((Contact) item);
-                                } else if (item instanceof java.util.Map) {
-                                    // Mapeo manual si Firestore lo devuelve como Map
-                                    java.util.Map<String, String> map = (java.util.Map<String, String>) item;
+
+                        List<Object> fetchedList = (List<Object>) documentSnapshot.get("emergency_contacts");
+
+                        contactsList.clear();
+                        if (fetchedList != null) {
+                            for (Object obj : fetchedList) {
+                                if (obj instanceof Map) {
+                                    Map<String, Object> map = (Map<String, Object>) obj;
                                     Contact contact = new Contact();
-                                    contact.setId(map.get("id"));
-                                    contact.setName(map.get("name"));
-                                    contact.setPhone(map.get("phone"));
-                                    tempContacts.add(contact);
+                                    contact.setId((String) map.get("id"));
+                                    contact.setName((String) map.get("name"));
+                                    contact.setPhone((String) map.get("phone"));
+                                    contactsList.add(contact);
                                 }
                             }
-
-                            contactsList.clear();
-                            contactsList.addAll(tempContacts);
-                            contactAdapter.notifyDataSetChanged();
                         }
+
+                        contactAdapter.notifyDataSetChanged();
                     }
                 })
-                .addOnFailureListener(e -> Toast.makeText(this, "Error cargando contactos.", Toast.LENGTH_SHORT).show());
+                .addOnFailureListener(e -> Toast.makeText(this, "Error cargando contactos: " + e.getMessage(), Toast.LENGTH_LONG).show());
     }
 
+
     private void saveContact(Contact contactToSave, boolean isNew) {
-        String userId = mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getUid() : null;
-        if (userId == null) return;
+        String userId = mAuth.getCurrentUser().getUid(); // Seguro, verificado en onCreate
 
         if (isNew) {
-            // Asignar un ID si es nuevo (aunque ya se asigna en el constructor)
             if (contactToSave.getId() == null) {
-                contactToSave.setId(java.util.UUID.randomUUID().toString());
+                contactToSave.setId(UUID.randomUUID().toString());
             }
             contactsList.add(contactToSave);
         } else {
-            // Lógica de edición: encontrar y reemplazar
             for (int i = 0; i < contactsList.size(); i++) {
                 if (contactsList.get(i).getId().equals(contactToSave.getId())) {
                     contactsList.set(i, contactToSave);
@@ -118,16 +123,16 @@ public class SettingsActivity extends AppCompatActivity implements ContactAdapte
             }
         }
 
-        // Guardar la lista completa de nuevo en Firestore
+        // CORRECCIÓN: Usar set con merge para crear el documento si no existe y evitar fallos de .update()
         db.collection("users").document(userId)
-                .update("emergency_contacts", contactsList)
+                .set(Collections.singletonMap("emergency_contacts", contactsList), SetOptions.merge())
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(this, "Contacto guardado.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Contacto guardado exitosamente.", Toast.LENGTH_SHORT).show();
                     contactAdapter.notifyDataSetChanged();
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Error al guardar contacto.", Toast.LENGTH_SHORT).show();
-                    loadContacts(); // Recargar para revertir cambios fallidos
+                    Toast.makeText(this, "Error al guardar: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    loadContacts(); // Intentar recargar si falla
                 });
     }
 
@@ -135,27 +140,25 @@ public class SettingsActivity extends AppCompatActivity implements ContactAdapte
 
     @Override
     public void onDeleteClick(Contact contact) {
-        // Implementación del borrado
-        String userId = mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getUid() : null;
-        if (userId == null) return;
+        String userId = mAuth.getCurrentUser().getUid(); // Seguro, verificado en onCreate
 
         contactsList.removeIf(c -> c.getId().equals(contact.getId()));
 
+        // CORRECCIÓN: Usar set con merge para actualizar la lista
         db.collection("users").document(userId)
-                .update("emergency_contacts", contactsList)
+                .set(Collections.singletonMap("emergency_contacts", contactsList), SetOptions.merge())
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, contact.getName() + " eliminado.", Toast.LENGTH_SHORT).show();
                     contactAdapter.notifyDataSetChanged();
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Error al eliminar contacto.", Toast.LENGTH_SHORT).show();
-                    loadContacts(); // Recargar para revertir
+                    Toast.makeText(this, "Error al eliminar contacto: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    loadContacts();
                 });
     }
 
     @Override
     public void onItemClick(Contact contact) {
-        // Implementación de la edición
         showAddContactDialog(contact);
     }
 
@@ -194,7 +197,7 @@ public class SettingsActivity extends AppCompatActivity implements ContactAdapte
                 if (isNew) {
                     finalContact = new Contact(name, phone);
                 } else {
-                    finalContact = contactToEdit; // Usar el objeto existente
+                    finalContact = contactToEdit;
                     finalContact.setName(name);
                     finalContact.setPhone(phone);
                 }

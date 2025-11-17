@@ -21,6 +21,9 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RouteViewHol
     private final List<Route> routesList;
     private final OnRouteActionListener listener;
 
+    public void updateList(List<Route> routesList) {
+    }
+
     public interface OnRouteActionListener {
         void onDeleteClick(Route route);
         void onItemClick(Route route);

@@ -1,4 +1,4 @@
-package com.tuempresa.pathsecure.activities; // ¡Paquete cambiado!
+package com.tuempresa.pathsecure.activities;
 
 import java.util.UUID;
 
@@ -7,12 +7,12 @@ public class Contact {
     private String name;
     private String phone;
 
-    // Constructor vacío requerido por Firestore
+    // CORRECCIÓN CLAVE: Constructor vacío (OBLIGATORIO) que no debe generar ID
     public Contact() {
-        this.id = UUID.randomUUID().toString();
     }
 
     public Contact(String name, String phone) {
+        // La generación de ID ocurre aquí (al crear un nuevo objeto)
         this.id = UUID.randomUUID().toString();
         this.name = name;
         this.phone = phone;
