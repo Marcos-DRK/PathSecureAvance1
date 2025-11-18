@@ -1,86 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="@color/futuristic_background"
     android:padding="16dp"
-    android:background="#F5F5F5">
+    tools:context=".activities.HomeActivity">
 
-    <TextView
-        android:id="@+id/txtTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="PathSecure inicio"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="16dp"
-        tools:ignore="HardcodedText" />
-
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:stretchColumns="1"
-        android:layout_marginBottom="16dp"> <TableRow>
-        <TextView android:text="Ruta actual"
-            tools:ignore="HardcodedText" />
-        <TextView android:text="Casa - trabajo" android:textStyle="bold"
-            tools:ignore="HardcodedText" />
-    </TableRow>
-
-        <TableRow>
-            <TextView android:text="Sistema"
-                tools:ignore="HardcodedText" />
-            <TextView android:text="Activado" android:textColor="#009688" android:textStyle="bold"
-                tools:ignore="HardcodedText" />
-        </TableRow>
-
-        <TableRow>
-            <TextView android:text="Emergencia"
-                tools:ignore="HardcodedText" />
-
-            <TextView
-                android:layout_width="285dp"
-                android:text="Inactivo"
-                android:textColor="#B00020"
-                android:textStyle="italic"
-                tools:ignore="HardcodedText" />
-        </TableRow>
-    </TableLayout>
+    <!-- Encabezado con Ajustes -->
+    <ImageButton
+        android:id="@+id/btnSettings"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Ajustes"
+        android:padding="8dp"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/ic_settings"
+        app:tint="@color/futuristic_text_secondary" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="24dp"
-        android:gravity="center">
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btnRoutes"
-            android:layout_width="wrap_content"
+        <!-- Botón de Pánico -->
+        <LinearLayout
+            style="@style/FuturisticCard"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Rutas"
-            android:layout_marginEnd="12dp"
-            tools:ignore="ButtonStyle,HardcodedText" />
+            android:layout_marginBottom="24dp"
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btnEmergency"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
-            android:backgroundTint="#B00020"
-            android:text="@string/emergencia"
-            android:textColor="#FFFFFF"
-            tools:ignore="ButtonStyle,HardcodedText,DuplicateSpeakableTextCheck" />
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginBottom="8dp"
+                app:srcCompat="@drawable/ic_panic"
+                app:tint="@color/futuristic_primary_accent" />
 
-        <Button
-            android:id="@+id/btnSettings"
-            android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/btnPanic"
+                style="@style/FuturisticButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Pánico" />
+        </LinearLayout>
+
+        <!-- Botones secundarios -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Configuración"
-            tools:ignore="ButtonStyle,HardcodedText" />
+            android:orientation="horizontal">
+
+            <!-- Botón de Rutas -->
+            <LinearLayout
+                style="@style/FuturisticCard"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginBottom="8dp"
+                    app:srcCompat="@drawable/ic_routes"
+                    app:tint="@color/futuristic_primary_accent" />
+
+                <Button
+                    android:id="@+id/btnRoutes"
+                    style="@style/FuturisticButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Rutas" />
+            </LinearLayout>
+
+            <!-- Botón de Mapa -->
+            <LinearLayout
+                style="@style/FuturisticCard"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginBottom="8dp"
+                    app:srcCompat="@drawable/ic_map"
+                    app:tint="@color/futuristic_primary_accent" />
+
+                <Button
+                    android:id="@+id/btnMap"
+                    style="@style/FuturisticButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Mapa" />
+
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
-
-</LinearLayout>
+</RelativeLayout>

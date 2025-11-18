@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">PathSecure</string>
     <string name="emergencia">Emergencia</string>
+    <string name="contact_name_not_available">Nombre no disponible</string>
+    <string name="contact_phone_not_available">Teléfono no disponible</string>
+
 </resources>

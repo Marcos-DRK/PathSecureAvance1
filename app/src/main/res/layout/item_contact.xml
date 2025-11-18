@@ -18,7 +18,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/txtContactName"
+            android:id="@+id/tvContactName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nombre del Contacto"
@@ -26,7 +26,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/txtContactPhone"
+            android:id="@+id/tvContactPhone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Teléfono: +569XXXXXXXX"

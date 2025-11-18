@@ -1,9 +1,16 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.PathSecure" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+<resources>
+    <style name="Theme.PathSecure" parent="Theme.MaterialComponents.DayNight.NoActionBar">
     </style>
 
-    <style name="Theme.PathSecure" parent="Base.Theme.PathSecure" />
+    <style name="FuturisticButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:background">@drawable/button_background_futuristic</item>
+        <item name="android:textColor">@color/futuristic_text_primary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="FuturisticCard">
+        <item name="android:background">@drawable/card_background_futuristic</item>
+        <item name="android:padding">16dp</item>
+    </style>
 </resources>
+

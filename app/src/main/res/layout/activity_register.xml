@@ -1,56 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center_horizontal"
+    android:background="@color/futuristic_background"
     android:padding="24dp"
-    android:background="#FFFFFF">
+    tools:context=".activities.RegisterActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Crear Cuenta"
+            android:textColor="@color/futuristic_primary_accent"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="32dp"/>
+
+        <!-- Campo de Nombre de Usuario -->
+        <EditText
+            android:id="@+id/etUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/card_background_futuristic"
+            android:hint="Nombre de Usuario"
+            android:inputType="textPersonName"
+            android:padding="16dp"
+            android:textColor="@color/futuristic_text_primary"
+            android:textColorHint="@color/futuristic_text_secondary" />
+
+        <!-- Campo de Email -->
+        <EditText
+            android:id="@+id/etEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/card_background_futuristic"
+            android:hint="Correo Electrónico"
+            android:inputType="textEmailAddress"
+            android:padding="16dp"
+            android:textColor="@color/futuristic_text_primary"
+            android:textColorHint="@color/futuristic_text_secondary" />
+
+        <!-- Campo de Contraseña -->
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/card_background_futuristic"
+            android:hint="Contraseña"
+            android:inputType="textPassword"
+            android:padding="16dp"
+            android:textColor="@color/futuristic_text_primary"
+            android:textColorHint="@color/futuristic_text_secondary" />
+
+        <!-- Botón de Registro -->
+        <Button
+            android:id="@+id/btnRegister"
+            style="@style/FuturisticButton"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Registrarse"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <!-- Botón para volver a Login -->
     <TextView
+        android:id="@+id/tvGoToLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Crear Cuenta"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="24dp"
-        tools:ignore="HardcodedText" />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="¿Ya tienes cuenta? Inicia sesión."
+        android:textColor="@color/futuristic_primary_accent"
+        android:padding="16dp"
+        android:textSize="16sp" />
 
-    <EditText
-        android:id="@+id/etEmailReg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Correo electrónico"
-        android:inputType=""
-        android:minHeight="48dp"
-        android:textColorHint="#757575"
-        tools:ignore=",Autofill,HardcodedText,TextFields,VisualLintTextFieldSize,TextContrastCheck,TextContrastCheck,TextContrastCheck" />
-
-    <EditText
-        android:id="@+id/etPassReg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:hint="Contraseña"
-        android:inputType="textPassword"
-        android:minHeight="48dp"
-        android:textColorHint="#757575"
-        tools:ignore="Autofill,HardcodedText,VisualLintTextFieldSize,TextContrastCheck,TouchTargetSizeCheck" />
-
-    <Button
-        android:id="@+id/btnCreateAccount"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Continuar"
-        android:layout_marginTop="24dp"
-        tools:ignore="HardcodedText,VisualLintButtonSize" />
-
-    <Button
-        android:id="@+id/btnBack"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Volver"
-        android:layout_marginTop="12dp"
-        tools:ignore="HardcodedText,VisualLintButtonSize" />
-</LinearLayout>
+</RelativeLayout>

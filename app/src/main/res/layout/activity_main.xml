@@ -1,73 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/futuristic_background"
     android:padding="24dp"
-    android:background="#FAFAFA">
+    tools:context=".activities.MainActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="PathSecure"
+            android:textColor="@color/futuristic_primary_accent"
+            android:textSize="48sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Bienvenido"
+            android:textColor="@color/futuristic_text_primary"
+            android:textSize="24sp"
+            android:layout_marginBottom="32dp"/>
+
+        <!-- Campo de Email -->
+        <EditText
+            android:id="@+id/etEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/card_background_futuristic"
+            android:hint="Correo Electrónico"
+            android:inputType="textEmailAddress"
+            android:padding="16dp"
+            android:textColor="@color/futuristic_text_primary"
+            android:textColorHint="@color/futuristic_text_secondary" />
+
+        <!-- Campo de Contraseña -->
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/card_background_futuristic"
+            android:hint="Contraseña"
+            android:inputType="textPassword"
+            android:padding="16dp"
+            android:textColor="@color/futuristic_text_primary"
+            android:textColorHint="@color/futuristic_text_secondary" />
+
+        <!-- Botón de Login -->
+        <Button
+            android:id="@+id/btnLogin"
+            style="@style/FuturisticButton"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Iniciar Sesión"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <!-- Botón para ir a Registro -->
     <TextView
-        android:id="@+id/txtTitle"
+        android:id="@+id/tvGoToRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="PathSecure"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="80dp"
-        tools:ignore="HardcodedText" />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="¿No tienes cuenta? Regístrate aquí."
+        android:textColor="@color/futuristic_primary_accent"
+        android:padding="16dp"
+        android:textSize="16sp" />
 
-    <EditText
-        android:id="@+id/etEmail"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:hint="correo electrónico"
-        android:minHeight="48dp"
-        android:textColorHint="#546E7A"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtTitle"
-        tools:ignore="Autofill,HardcodedText,TextFields,TouchTargetSizeCheck,VisualLintTextFieldSize,TextContrastCheck,TextContrastCheck" />
+</RelativeLayout>
 
-    <EditText
-        android:id="@+id/etPassword"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:autofillHints=""
-        android:hint="contraseña"
-        android:inputType="textPassword"
-        android:minHeight="48dp"
-        android:textColorHint="#546E7A"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etEmail"
-        tools:ignore="HardcodedText,VisualLintTextFieldSize,TextContrastCheck,TextContrastCheck,TouchTargetSizeCheck" />
-
-    <Button
-        android:id="@+id/btnLogin"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Iniciar sesión"
-        app:layout_constraintTop_toBottomOf="@id/etPassword"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="24dp"
-        tools:ignore="HardcodedText,VisualLintButtonSize" />
-
-    <Button
-        android:id="@+id/btnRegister"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Crear cuenta"
-        app:layout_constraintTop_toBottomOf="@id/btnLogin"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
-        tools:ignore="HardcodedText,VisualLintButtonSize" />
-</androidx.constraintlayout.widget.ConstraintLayout>
