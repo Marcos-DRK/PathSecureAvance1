@@ -38,6 +38,7 @@ public class EmergencyActivity extends AppCompatActivity {
     private String filePath;
     private boolean isRecording = false; // NUEVO: Estado de la grabación
 
+
     private static final int REQUEST_AUDIO = 200;
     private static final int REQUEST_SMS = 300;
     // Se necesita permiso de lectura para reproducir el archivo

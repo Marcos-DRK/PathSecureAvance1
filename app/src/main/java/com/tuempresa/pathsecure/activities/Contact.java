@@ -11,6 +11,7 @@ public class Contact {
     public Contact() {
     }
 
+
     public Contact(String name, String phone) {
         // La generación de ID ocurre aquí (al crear un nuevo objeto)
         this.id = UUID.randomUUID().toString();

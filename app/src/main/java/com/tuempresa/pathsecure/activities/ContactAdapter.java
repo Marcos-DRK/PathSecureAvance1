@@ -25,6 +25,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
         void onItemClick(Contact contact); // Para editar
     }
 
+
     public ContactAdapter(List<Contact> contactsList, OnContactActionListener listener) {
         this.contactsList = contactsList;
         this.listener = listener;
