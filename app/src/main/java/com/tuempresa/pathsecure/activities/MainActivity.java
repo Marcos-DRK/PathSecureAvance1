@@ -23,11 +23,11 @@ public class MainActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmailReg);
         etPassword = findViewById(R.id.etPassReg);
         Button btnLogin = findViewById(R.id.btnLogin);
-        Button btnRegister = findViewById(R.id.btnCreateAccount);
+        Button btnCreateAccount = findViewById(R.id.btnCreateAccount);
 
         mAuth = FirebaseAuth.getInstance();
 
-        btnRegister.setOnClickListener(v -> startActivity(new Intent(this, RegisterActivity.class)));
+        btnCreateAccount.setOnClickListener(v -> startActivity(new Intent(this, RegisterActivity.class)));
         btnLogin.setOnClickListener(v -> iniciarSesion());
     }
 
