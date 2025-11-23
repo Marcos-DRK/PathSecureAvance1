@@ -7,6 +7,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -29,7 +30,7 @@ import java.util.List;
 
 public class HomeActivity extends AppCompatActivity implements SensorEventListener {
 
-    private Button btnRoutes, btnSettings, btnEmergency;
+    private Button btnRoutes, btnSettings, btnPanic;
     private TextView txtLocation; // Este TextView no se usa en el código, pero se mantiene.
 
     // Permisos y Constantes
@@ -64,10 +65,11 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         initListeners();
     }
 
+    @SuppressLint("WrongViewCast")
     private void initViews() {
         btnRoutes = findViewById(R.id.btnRoutes);
         btnSettings = findViewById(R.id.btnSettings);
-        btnEmergency = findViewById(R.id.btnEmergency);
+        btnPanic = findViewById(R.id.btnPanic);
         // Asegúrate de que este TextView exista en tu XML o elimínalo
         // txtLocation = findViewById(R.id.txtLocation);
     }
@@ -90,7 +92,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
 
     private void initListeners() {
         // CORRECCIÓN: Se envuelve la lógica de emergencia para chequear permisos
-        btnEmergency.setOnClickListener(v -> activarEmergencia("manual"));
+        btnPanic.setOnClickListener(v -> activarEmergencia("manual"));
 
         btnRoutes.setOnClickListener(v ->
                 startActivity(new Intent(HomeActivity.this, RoutesActivity.class)));

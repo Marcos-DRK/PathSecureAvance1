@@ -1,6 +1,8 @@
 package com.tuempresa.pathsecure.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -22,6 +24,7 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseFirestore db;
 
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +33,7 @@ public class RegisterActivity extends AppCompatActivity {
         etEmailReg = findViewById(R.id.etEmailReg);
         etPassReg = findViewById(R.id.etPassReg);
         Button btnCreateAccount = findViewById(R.id.btnCreateAccount);
-        Button btnBack = findViewById(R.id.btnBack);
+        Button btnBack = findViewById(R.id.btnBackSettings);
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
